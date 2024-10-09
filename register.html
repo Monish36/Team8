@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Hospital Registration</title>
+  <style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-image: url('hospital-background.png');
+        background-size: cover;
+        height: 745px;
+        background-position: center;
+      }
+  
+      .container {
+        max-width: 400px;
+        margin: 0 auto;
+        padding: 30px;
+        background-color: rgba(255, 255, 255, 0.8);
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        align-content: space-around;
+      }
+  
+      h1 {
+        text-align: center;
+        margin-bottom: 20px;
+        font-family: cursive;
+      }
+  
+      form {
+        display: grid;
+        grid-gap: 10px;
+      }
+  
+      label {
+        font-weight: bold;
+      }
+  
+      input[type="text"], input[type="password"] {
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+      }
+  
+      button {
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background-color 0.3s ease;
+      }
+  
+      button:hover {
+        background-color: #45a049;
+      }
+  
+      .register-link {
+        text-align: center;
+        margin-top: 20px;
+      }
+  
+      .register-link a {
+        color: #4CAF50;
+        text-decoration: none;
+        transition: color 0.3s ease;
+      }
+  
+      .register-link a:hover {
+        color: #45a049;
+        text-decoration: underline;
+      }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Hospital Registration</h1>
+    <form id="register-form">
+      <label for="username">Username:</label>
+      <input type="text" id="register-username" name="username" required>
+
+      <label for="password">Password:</label>
+      <input type="password" id="register-password" name="password" required>
+
+      <button type="submit">Register</button>
+    </form>
+
+    <div class="register-link">
+      <a href="index.html">Already registered? Log in here</a>
+    </div>
+  </div>
+
+  <script>
+    
+    let registeredUsers = JSON.parse(localStorage.getItem('registeredUsers')) || [];
+
+    
+    const registerForm = document.getElementById('register-form');
+    registerForm.addEventListener('submit', function(event) {
+      event.preventDefault(); 
+
+      
+      const username = document.getElementById('register-username').value;
+      const password = document.getElementById('register-password').value;
+
+      
+      const existingUser = registeredUsers.find(user => user.username === username);
+      if (existingUser) {
+        alert('Username already registered. Please choose a different username.');
+        return;
+      }
+
+      
+      const newUser = { username, password };
+
+      
+      registeredUsers.push(newUser);
+
+      
+      localStorage.setItem('registeredUsers', JSON.stringify(registeredUsers));
+
+      alert('Registration successful! Please log in with your new credentials.');
+
+      
+      window.location.href = 'index.html';
+    });
+  </script>
+</body>
+</html>

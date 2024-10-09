@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Hospital Specialities</title>
+  <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appointments</title>
+    <link rel="stylesheet" href="css/styles.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-image: url('specialties.png');
+      background-size: cover;
+      background-position: center;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: rgba(255, 255, 255, 0.8);
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .hs {
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 40px;
+    }
+
+    .specialities {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-gap: 20px;
+    }
+
+    .speciality {
+      background-color: white;
+      padding: 20px;
+      border-radius: 5px;
+      text-align: center;
+      transition: background-color 0.3s ease;
+    }
+
+    .speciality:hover {
+      background-color: rgb(235, 216, 216);
+    }
+    .speciality img{
+      width: 200px;
+      height: auto;
+    }
+    .speciality h2{
+      padding-bottom: 1px;
+    }
+
+    .speciality p {
+      margin-bottom: 800px;
+    }
+    h2{
+        text-align: center;
+        
+    }
+    h2:hover{
+      background-color: rgb(235, 216, 216);
+    }
+    h1 {
+        text-align: center;
+        margin-bottom: 20px;
+        font-family: cursive;
+      }
+   
+  </style>
+</head>
+<body><h1>VIT HOSPITALS</h1>
+    <nav>
+        <ul>
+            <li class="d"><a href="dashboard.html">Home</a></li>
+            <li class="s"><a href="specialities.html">Specialities</a></li>
+            <li class="f"><a href="facilities_services.html">Facilities and Services</a></li>
+            <li class="a"><a href="appointments.html">Appointments</a></li>
+            <li class="a"><a href="medicalrecords.html">Records</a></li>
+            <li class="a"><a href="Feedbacks.html">Feedbacks</a></li>
+            <li class="c"><a href="contact.html">Contact Us</a></li>
+            <li class="i"><a href="index.html">Logout</a></li>
+        </ul>
+    </nav>
+  <div class="container">
+    <h1 class="hs">Hospital Specialities</h1>
+    <div class="specialities">
+      <div class="speciality">
+        <img src="generic.png" alt="generic_medicine">
+        <h2>General Medicine</h2>
+        
+      </div>
+      <div class="speciality">
+            <img src="cardiology.png" alt="Cardiology">
+            <h2>Cardiology</h2>
+          
+      </div>
+      <div class="speciality">
+        <img src="urology.png" alt="urology">
+        <h2>Urology</h2>
+        
+      </div>
+      <div class="speciality">
+        <img src="nephrology.png" alt="nephrology">
+        <h2>Nephrology</h2>
+        
+      </div>
+      <div class="speciality">
+        <img src="gastro.png" alt="GE">
+        <h2>GastroEnterology</h2>
+        
+      </div>
+      <div class="speciality">
+        <img src="orthopedics.jpeg" alt="orthopedics">
+        <h2>Orthopedics</h2>
+        
+      </div>
+      <div class="speciality">
+        <img src="radiology.png" alt="radiology">
+        <h2>Radiology</h2>
+        
+      </div>
+      <div class="speciality">
+        <img src="ent.png" alt="ent">
+        <h2>ENT</h2>
+        
+      </div>
+    </div>
+  </div>
+</body>
+</html>

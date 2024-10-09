@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facial Attendance System</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/face-api.js"></script>
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        #canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+        video {
+            border: 2px solid #007bff;
+            border-radius: 5px;
+        }
+        h1 {
+            color: #007bff;
+        }
+        .button-container {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container my-5">
+        <h1 class="text-center mb-4">Facial Attendance System</h1>
+        <div class="text-center mb-4">
+            <video id="video" width="640" height="480" autoplay></video>
+            <canvas id="canvas" width="640" height="480"></canvas>
+        </div>
+        <div class="button-container text-center">
+            <button class="btn btn-success" id="startButton" onclick="startAttendance()">Start Attendance</button>
+            <button class="btn btn-danger" id="stopButton" onclick="stopAttendance()" disabled>Stop Attendance</button>
+        </div>
+    </div>
+
+    <script>
+        const video = document.getElementById('video');
+        const canvas = document.getElementById('canvas');
+        const context = canvas.getContext('2d');
+        let attendanceInterval;
+        let isAttendanceActive = false;
+
+        // Load face-api models
+        Promise.all([
+            faceapi.nets.tinyFaceDetector.loadFromUri('/models'),
+            faceapi.nets.faceLandmark68Net.loadFromUri('/models'),
+            faceapi.nets.faceRecognitionNet.loadFromUri('/models')
+        ]).then(startVideo);
+
+        // Start video stream
+        function startVideo() {
+            navigator.mediaDevices.getUserMedia({ video: {} })
+                .then(stream => {
+                    video.srcObject = stream;
+                })
+                .catch(err => {
+                    console.error("Error accessing the camera: ", err);
+                });
+        }
+
+        // Start attendance process
+        async function startAttendance() {
+            isAttendanceActive = true;
+            document.getElementById('startButton').disabled = true;
+            document.getElementById('stopButton').disabled = false;
+
+            const labeledFaceDescriptors = await loadKnownFaces(); // Load known faces once
+            const faceMatcher = new faceapi.FaceMatcher(labeledFaceDescriptors);
+
+            attendanceInterval = setInterval(async () => {
+                const detections = await faceapi.detectAllFaces(video, new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceDescriptors();
+                context.clearRect(0, 0, canvas.width, canvas.height);
+                faceapi.matchDimensions(canvas, video);
+
+                const resizedDetections = faceapi.resizeResults(detections, { width: canvas.width, height: canvas.height });
+                resizedDetections.forEach(async detection => {
+                    const { x, y, width, height } = detection.detection.box;
+                    const bestMatch = await faceMatcher.findBestMatch(detection.descriptor);
+
+                    // Check if the best match confidence is above 90%
+                    if (bestMatch && bestMatch.distance < 0.1) { // 0.1 corresponds to 90% confidence
+                        const name = bestMatch.label;
+
+                        // Draw rectangle around the face
+                        context.drawImage(video, 0, 0, canvas.width, canvas.height);
+                        context.beginPath();
+                        context.rect(x, y, width, height);
+                        context.lineWidth = 2;
+                        context.strokeStyle = 'green';
+                        context.stroke();
+
+                        // Draw label
+                        context.fillStyle = 'white';
+                        context.fillText(name, x, y > 10 ? y - 5 : 10);
+
+                        // Mark attendance
+                        markAttendance(name);
+                    }
+                });
+            }, 1000); // Check every second
+        }
+
+        // Stop attendance process
+        function stopAttendance() {
+            isAttendanceActive = false;
+            clearInterval(attendanceInterval);
+            document.getElementById('startButton').disabled = false;
+            document.getElementById('stopButton').disabled = true;
+            context.clearRect(0, 0, canvas.width, canvas.height); // Clear canvas
+            console.log('Attendance stopped.');
+        }
+
+        async function markAttendance(name) {
+            const date = new Date().toLocaleDateString();
+            const time = new Date().toLocaleTimeString();
+
+            // Send attendance data to the server
+            fetch('/mark-attendance', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    name: name,
+                    date: date,
+                    time: time
+                })
+            }).then(response => {
+                if (response.ok) {
+                    console.log(`Attendance marked for ${name}`);
+                }
+            }).catch(error => {
+                console.error('Error marking attendance:', error);
+            });
+        }
+
+        async function loadKnownFaces() {
+            // Load known faces from your database or a local file
+            const labeledFaceDescriptors = await Promise.all(
+                knownFaces.map(async face => {
+                    // Load image
+                    const img = await faceapi.fetchImage(`/images/${face.filename}`);
+                    
+                    // Detect face with highest score
+                    const fullFaceDescription = await faceapi.detectSingleFace(img);
+                    
+                    // Compute face descriptor
+                    const faceDescriptor = await fullFaceDescription.descriptor;
+                    
+                    return new faceapi.LabeledFaceDescriptors(face.name, [faceDescriptor]);
+                })
+            );
+
+            return labeledFaceDescriptors;
+        }
+    </script>
+
+    <script>
+        // Default known faces database
+        const knownFaces = [
+            { name: 'G_VAMSI', filename: 'G_VAMSI.JPG' },
+            { name: 'Bob', filename: 'bob.jpg' },
+            { name: 'Charlie', filename: 'charlie.jpg' },
+            { name: 'David', filename: 'david.jpg' },
+            { name: 'Eve', filename: 'eve.jpg' }
+        ];
+    </script>
+</body>
+</html>

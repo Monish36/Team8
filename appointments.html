@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Appointment Booking</title>
+  <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appointments</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 3px;
+        background-image: url('image1.png');
+        background-size: cover;
+        height: 745px;
+        background-position: center;
+      }
+    
+      .container {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: rgba(255, 255, 255, 0.8);
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+      }
+    
+      h1 {
+        text-align: center;
+        margin-bottom: 20px;
+        font-family: cursive;
+      }
+    
+      form {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-gap: 20px;
+      }
+    
+      label {
+        font-weight: bold;
+      }
+    
+      input[type="text"], input[type="tel"], textarea, select {
+        width: 90%;
+        padding: 10px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        resize: vertical;
+      }
+    
+      input[type="text"], input[type="tel"], textarea {
+        height: 15px;
+      }
+    
+      input[type="submit"] {
+        grid-column: 1 / -1;
+        background-color: green;
+        color: rgb(255, 255, 255);
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: 1s;
+      }
+    
+      input[type="submit"]:hover {
+        background-color: rgb(0, 255, 38);
+        color: black;
+        box-shadow: 8px 8px 8px black;
+      }
+      input[type="submit"]:active{
+        opacity:0.7;
+      }
+    
+      table {
+        width: 10%;
+        border-collapse: collapse;
+        margin-top: 20px;
+      }
+    
+      th, td {
+        padding: 10px;
+        text-align: left;
+        border-bottom: 1px solid grey;
+      }
+    
+      th {
+          text-align: center;
+        background-color: rgb(56, 255, 238);
+        border-color: rgb(14, 13, 10);
+        border-radius: 4px;
+        border-style: solid;
+      }
+    
+      button {
+        background-color: rgb(227, 98, 98);
+        color: white;
+        border: none;
+        padding: 5px 8px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: 1s;
+      }
+    
+      button:hover {
+        background-color: rgb(255, 0, 0);
+        box-shadow: 8px 8px 8px black;
+        color: black;
+      }
+      button:active{
+        opacity:0.7;
+      }
+
+      .appointments{
+          text-decoration: dotted;
+          background-color: bisque;
+      }
+      .bookappointment{
+        width: 600px;
+      }
+      .mobilenumber{
+        width: 200px;
+      }
+    </style>
+  
+</head>
+<body>
+  <h1>VIT HOSPITALS</h1>
+    <nav>
+        <ul>
+            <li class="d"><a href="dashboard.html">Home</a></li>
+            <li class="s"><a href="specialities.html">Specialities</a></li>
+            <li class="f"><a href="facilities_services.html">Facilities and Services</a></li>
+            <li class="a"><a href="appointments.html">Appointment</a></li>
+            <li class="a"><a href="medicalrecords.html">Records</a></li>
+            <li class="a"><a href="Feedbacks.html">Feedbacks</a></li>
+            <li class="c"><a href="contact.html">Contact Us</a></li>
+            <li class="i"><a href="index.html">Logout</a></li>
+        </ul>
+    </nav>
+
+  <div class="container">
+    <h1>Book an Appointment</h1>
+
+    <form id="appointment-form">
+      <div>
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+      </div>
+      <div class="mobilenumber">
+        <label for="mobile">Mobile Number:</label>
+        <input type="tel" id="mobile" name="mobile" required>
+      </div>
+      <div>
+        <label for="problem">Problem:</label>
+        <textarea id="problem" name="problem" required></textarea>
+      </div>
+      <div>
+        <label for="date">Date:</label>
+        <input type="date" id="date" name="date" required>
+      </div>
+      <div>
+        <label for="time">Time Slot:</label>
+        <select id="time" name="time" required>
+          <option value="">Select a time slot</option>
+          <option value="9am-10am">9:00 AM - 10:00 AM</option>
+          <option value="10am-11am">10:00 AM - 11:00 AM</option>
+          <option value="11am-12pm">11:00 AM - 12:00 PM</option>
+          <option value="1pm-2pm">1:00 PM - 2:00 PM</option>
+          <option value="2pm-3pm">2:00 PM - 3:00 PM</option>
+          <option value="3pm-4pm">3:00 PM - 4:00 PM</option>
+        </select>
+      </div>
+      <div class="bookappointment">
+        <input type="submit" value="Book Appointment">
+      </div>
+    </form>
+
+
+
+    
+
+  <script>
+    const appointments = JSON.parse(localStorage.getItem('appointments')) || [];
+
+    
+    const appointmentsTable = document.getElementById('appointments-table');
+    appointments.forEach((appointment, index) => {
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${appointment.name}</td>
+        <td>${appointment.mobile}</td>
+        <td>${appointment.problem}</td>
+        <td>${appointment.date}</td>
+        <td>${appointment.time}</td>
+        <td><button onclick="deleteAppointment(${index})">Delete</button></td>
+      `;
+      appointmentsTable.appendChild(row);
+    });
+
+    
+    function deleteAppointment(index) {
+      const appointments = JSON.parse(localStorage.getItem('appointments')) || [];
+      appointments.splice(index, 1);
+      localStorage.setItem('appointments', JSON.stringify(appointments));
+      window.location.reload();
+    }
+
+    
+    const form = document.getElementById('appointment-form');
+    form.addEventListener('submit', function(event) {
+      event.preventDefault(); 
+
+      
+      const name = document.getElementById('name').value;
+      const mobile = document.getElementById('mobile').value;
+      const problem = document.getElementById('problem').value;
+      const date = document.getElementById('date').value;
+      const time = document.getElementById('time').value;
+
+      
+      const newAppointment = {
+        name: name,
+        mobile: mobile,
+        problem: problem,
+        date: date,
+        time: time
+      };
+
+      
+      const appointments = JSON.parse(localStorage.getItem('appointments')) || [];
+
+      
+      appointments.push(newAppointment);
+
+      
+      localStorage.setItem('appointments', JSON.stringify(appointments));
+
+      
+      window.location.reload();
+    });
+  </script>
+</body>
+</html>

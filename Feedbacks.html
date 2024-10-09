@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+        body {
+          font-family: Arial, sans-serif;
+          margin: 0;
+          padding: 3px;
+          background-image: url('image1.png');
+          background-size: cover;
+          height: 745px;
+          background-position: center;
+        }
+      
+        .container {
+          max-width: 800px;
+          margin: 0 auto;
+          padding: 20px;
+          background-color: rgba(255, 255, 255, 0.8);
+          border-radius: 10px;
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+      
+        h1 {
+          text-align: center;
+          margin-bottom: 20px;
+          font-family: cursive;
+        }
+      
+        form {
+          display: grid;
+          grid-gap: 20px;
+        }
+
+        .input-group {
+          display: flex;
+          gap: 20px;
+        }
+      
+        label {
+          font-weight: bold;
+        }
+      
+        input[type="text"], input[type="email"], textarea {
+          width: 100%;
+          padding: 5px; /* Smaller padding */
+          font-size: 14px; /* Smaller font size */
+          border: 1px solid #ccc;
+          border-radius: 5px;
+          resize: vertical;
+        }
+      
+        textarea {
+          height: 80px; /* Reduced height for the feedback box */
+        }
+      
+        input[type="submit"] {
+          background-color: green;
+          color: rgb(255, 255, 255);
+          padding: 5px 10px;
+          border: none;
+          border-radius: 5px;
+          cursor: pointer;
+          font-size: 14px;
+          transition: 1s;
+          width: auto;
+        }
+      
+        input[type="submit"]:hover {
+          background-color: rgb(0, 255, 38);
+          color: black;
+          box-shadow: 8px 8px 8px black;
+        }
+
+        input[type="submit"]:active{
+          opacity:0.7;
+        }
+
+        .input-group div {
+          flex: 1;
+        }
+    </style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const feedbackForm = document.getElementById('Feedbacks');
+
+        feedbackForm.addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent form from reloading the page
+
+            // Get values from the form fields
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const feedback = document.getElementById('feedback').value;
+
+            // Validate if necessary
+            if (name === '' || email === '' || feedback === '') {
+                alert("Please fill in all fields.");
+                return;
+            }
+
+            // Store the feedback in localStorage (for testing purpose)
+            const feedbackData = {
+                name: name,
+                email: email,
+                feedback: feedback
+            };
+
+            // Get previous feedbacks or initialize an empty array
+            const feedbacks = JSON.parse(localStorage.getItem('feedbacks')) || [];
+            
+            // Add new feedback
+            feedbacks.push(feedbackData);
+            
+            // Save feedback back to localStorage
+            localStorage.setItem('feedbacks', JSON.stringify(feedbacks));
+
+            // Confirmation message
+            alert("Thank you for your feedback!");
+
+            // Optionally reset the form after submission
+            feedbackForm.reset();
+        });
+    });
+</script>
+
+</head>
+<body>
+    <h1>VIT HOSPITALS</h1>
+    <nav>
+        <ul>
+            <li class="d"><a href="dashboard.html">Home</a></li>
+            <li class="s"><a href="specialities.html">Specialities</a></li>
+            <li class="f"><a href="facilities_services.html">Facilities and Services</a></li>
+            <li class="a"><a href="appointments.html">Appointment</a></li>
+            <li class="a"><a href="medicalrecords.html">Records</a></li>
+            <li class="a"><a href="Feedbacks.html">Feedbacks</a></li>
+            <li class="c"><a href="contact.html">Contact Us</a></li>
+            <li class="i"><a href="index.html">Logout</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <h1>Feedback</h1>
+
+        <form id="Feedbacks">
+            <div class="input-group">
+                <div>
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+
+                <div>
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+            </div>
+
+            <div>
+                <label for="feedback">Feedback:</label>
+                <textarea id="feedback" name="feedback" placeholder="Your feedback here..." required></textarea>
+            </div>
+
+            <div>
+                <input type="submit" value="Submit">
+            </div>
+        </form>
+    </div>
+</body>
+</html>

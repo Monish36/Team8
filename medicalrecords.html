@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Medical Records</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 3px;
+      background-image: url('image1.png');
+      background-size: cover;
+      height: 745px;
+      background-position: center;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: rgba(255, 255, 255, 0.8);
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+      font-family: cursive;
+    }
+
+    form {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-gap: 20px;
+    }
+
+    label {
+      font-weight: bold;
+    }
+
+    input[type="text"], input[type="date"], textarea, select {
+      width: 90%;
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      resize: vertical;
+    }
+
+    input[type="text"], input[type="date"], textarea {
+      height: 15px;
+    }
+
+    input[type="submit"] {
+      grid-column: 1 / -1;
+      background-color: green;
+      color: rgb(255, 255, 255);
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: 1s;
+    }
+
+    input[type="submit"]:hover {
+      background-color: rgb(0, 255, 38);
+      color: black;
+      box-shadow: 8px 8px 8px black;
+    }
+    input[type="submit"]:active {
+      opacity: 0.7;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    th, td {
+      padding: 10px;
+      text-align: left;
+      border-bottom: 1px solid grey;
+    }
+
+    th {
+      text-align: center;
+      background-color: rgb(56, 255, 238);
+      border-color: rgb(14, 13, 10);
+      border-radius: 4px;
+      border-style: solid;
+    }
+
+    button {
+      background-color: rgb(227, 98, 98);
+      color: white;
+      border: none;
+      padding: 5px 8px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: 1s;
+    }
+
+    button:hover {
+      background-color: rgb(255, 0, 0);
+      box-shadow: 8px 8px 8px black;
+      color: black;
+    }
+    button:active {
+      opacity: 0.7;
+    }
+
+    .bookmedicalrecord {
+      width: 600px;
+    }
+  </style>
+</head>
+<body>
+  <h1>VIT HOSPITALS</h1>
+  <nav>
+    <ul>
+      <li class="d"><a href="dashboard.html">Home</a></li>
+      <li class="s"><a href="specialities.html">Specialities</a></li>
+      <li class="f"><a href="facilities_services.html">Facilities and Services</a></li>
+      <li class="a"><a href="appointments.html">Appointment</a></li>
+      <li class="a"><a href="medicalrecords.html">Records</a></li>
+      <li class="a"><a href="Feedbacks.html">Feedbacks</a></li>
+      <li class="c"><a href="contact.html">Contact Us</a></li>
+      <li class="i"><a href="index.html">Logout</a></li>
+    </ul>
+  </nav>
+
+  <div class="container">
+    <h1>Medical Records</h1>
+
+    <form id="medical-record-form">
+      <div>
+        <label for="patient-name">Name:</label>
+        <input type="text" id="patient-name" name="patient-name" required>
+      </div>
+      <div>
+        <label for="medical-condition">Medical Condition:</label>
+        <textarea id="medical-condition" name="medical-condition" required></textarea>
+      </div>
+      <div>
+        <label for="doctor">Doctor:</label>
+        <input type="text" id="doctor" name="doctor" required>
+      </div>
+      <div>
+        <label for="medicines">Medicines Prescribed:</label>
+        <textarea id="medicines" name="medicines" required></textarea>
+      </div>
+      <div>
+        <label for="date">Date:</label>
+        <input type="date" id="date" name="date" required>
+      </div>
+      <!-- Move the button down below the date input -->
+      <div class="bookmedicalrecord">
+        <input type="submit" value="Add Medical Record">
+      </div>
+    </form>
+
+    <!-- This table will dynamically appear once data is submitted -->
+    <table id="medical-records-table" style="display:none;">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Medical Condition</th>
+          <th>Doctor</th>
+          <th>Medicines Prescribed</th>
+          <th>Date</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="medical-records-body">
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+    // Retrieve medical records from localStorage or initialize an empty array
+    const medicalRecords = JSON.parse(localStorage.getItem('medicalRecords')) || [];
+
+    // Function to update the table based on the medical records
+    function updateTable() {
+      const medicalRecordsBody = document.getElementById('medical-records-body');
+      medicalRecordsBody.innerHTML = '';  // Clear the table body
+
+      // Loop through each record and append it to the table
+      medicalRecords.forEach((record, index) => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${record.patientName}</td>
+          <td>${record.medicalCondition}</td>
+          <td>${record.doctor}</td>
+          <td>${record.medicines}</td>
+          <td>${record.date}</td>
+          <td><button onclick="deleteRecord(${index})">Delete</button></td>
+        `;
+        medicalRecordsBody.appendChild(row);
+      });
+
+      // Show the table if records exist, otherwise hide it
+      if (medicalRecords.length > 0) {
+        document.getElementById('medical-records-table').style.display = 'table';
+      } else {
+        document.getElementById('medical-records-table').style.display = 'none';
+      }
+    }
+
+    // Function to delete a record from the table
+    function deleteRecord(index) {
+      medicalRecords.splice(index, 1);  // Remove the record at the given index
+      localStorage.setItem('medicalRecords', JSON.stringify(medicalRecords));  // Save updated records
+      updateTable();  // Refresh the table
+    }
+
+    // Form submission event listener
+    const form = document.getElementById('medical-record-form');
+    form.addEventListener('submit', function(event) {
+      event.preventDefault();  // Prevent the form from submitting the traditional way
+
+      // Get form values
+      const patientName = document.getElementById('patient-name').value;
+      const medicalCondition = document.getElementById('medical-condition').value;
+      const doctor = document.getElementById('doctor').value;
+      const medicines = document.getElementById('medicines').value;  // Get the medicines prescribed
+      const date = document.getElementById('date').value;
+
+      // Create a new record object
+      const newRecord = {
+        patientName: patientName,
+        medicalCondition: medicalCondition,
+        doctor: doctor,
+        medicines: medicines,  // Include medicines in the record
+        date: date
+      };
+
+      // Add the new record to the array and localStorage
+      medicalRecords.push(newRecord);
+      localStorage.setItem('medicalRecords', JSON.stringify(medicalRecords));
+
+      // Clear form inputs
+      form.reset();
+
+      // Update the table with the new record
+      updateTable();
+    });
+
+    // Initial call to update the table when the page loads
+    updateTable();
+  </script>
+</body>
+</html>

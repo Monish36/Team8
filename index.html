@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Hospital Login</title>
+
+  
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-image: url('hospital-background.png');
+      background-size: cover;
+      height: 745px;
+      background-position: center;
+    }
+
+    .container {
+      max-width: 400px;
+      margin: 0 auto;
+      padding: 30px;
+      background-color: rgba(255, 255, 255, 0.8);
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+      align-content: space-around;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+      font-family: cursive;
+    }
+
+    form {
+      display: grid;
+      grid-gap: 10px;
+    }
+
+    label {
+      font-weight: bold;
+    }
+
+    input[type="text"], input[type="password"] {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    button {
+      background-color: rgb(66, 175, 66);
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: rgb(66, 175, 66);
+    }
+
+    .register-link {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .register-link a {
+      color: rgb(66, 175, 66);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .register-link a:hover {
+      color: rgb(66, 175, 66);
+      text-decoration: underline;
+    }
+
+    .forgot-password-link a:hover {
+      color: rgb(66, 175, 66);
+      text-decoration: underline;
+    }
+  </style>
+
+
+<body>
+  <div class="container">
+    <h1>Hospital Login</h1>
+    <form id="login-form">
+      <label for="username">Username:</label>
+      <input type="text" id="login-username" name="username" required>
+
+      <label for="password">Password:</label>
+      <input type="password" id="login-password" name="password" required>
+
+      <button type="submit">Login</button>
+    </form>
+
+    <div class="register-link">
+      <a href="register.html">Not registered? Sign up here</a>
+    </div>
+
+    <div class="forgot-password-link">
+      <a href="forgot-password.html">Forgot your password?</a>
+    </div>
+    
+  </div>
+
+
+
+
+
+
+  <script>
+    
+    const correctUsername = 'admin';
+    const correctPassword = 'password';
+
+    
+    let registeredUsers = JSON.parse(localStorage.getItem('registeredUsers')) || [];
+
+    
+    const loginForm = document.getElementById('login-form');
+    loginForm.addEventListener('submit', function(event) {
+      event.preventDefault(); 
+
+      
+      const username = document.getElementById('login-username').value;
+      const password = document.getElementById('login-password').value;
+
+      
+      if (username === correctUsername && password === correctPassword) {
+        
+        window.location.href = 'dashboard.html';
+      } else {
+        
+        const registeredUser = registeredUsers.find(user => user.username === username && user.password === password);
+        if (registeredUser) {
+          
+          window.location.href = 'dashboard.html';
+        } else {
+          alert('Invalid username or password. Please try again.');
+        }
+      }
+    });
+  </script>
+</body>
+</html>

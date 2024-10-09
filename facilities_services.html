@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Hospital Facilities and Services</title>
+  <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appointments</title>
+    <link rel="stylesheet" href="css/styles.css">
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-image: url('facilities_services.png');
+      background-size: cover;
+      height: 745px;
+      background-position: center;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: rgba(255, 255, 255, 0.5);
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+    }
+    h1 {
+        text-align: center;
+        margin-bottom: 20px;
+        font-family: cursive;
+      }
+
+    .services {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      grid-gap: 20px;
+    }
+
+    .service {
+      background-color: transparent;
+      padding: 20px;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+
+      
+    }
+
+    .service:hover {
+      background-color: rgb(255, 248, 193);
+    }
+
+    .service h2 {
+      margin-top: 0;
+    }
+
+    .service ul {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    .service li {
+      margin-bottom: 5px;
+    }
+  </style>
+</head>
+<body><h1>VIT HOSPITALS</h1>
+    <nav>
+        <ul>
+            <li class="d"><a href="dashboard.html">Home</a></li>
+            <li class="s"><a href="specialities.html">Specialities</a></li>
+            <li class="f"><a href="facilities_services.html">Facilities and Services</a></li>
+            <li class="a"><a href="appointments.html">Appointments</a></li>
+            <li class="a"><a href="medicalrecords.html">Records</a></li>
+            <li class="a"><a href="Feedbacks.html">Feedbacks</a></li>
+            <li class="c"><a href="contact.html">Contact Us</a></li>
+            <li class="i"><a href="index.html">Logout</a></li>
+        </ul>
+    </nav>
+  <div class="container">
+    <h1 class="hfs">HOSPITAL FACILITIES AND SERVICES</h1>
+    <div class="services">
+      <div class="service">
+        <h2>Out-Patient Services</h2>
+          <li>General Consultation</li>
+          <li>Specialist Consultation</li>
+          <li>Physiotherapy</li>
+        
+      </div>
+      <div class="service">
+        <h2>In-Patient Services</h2>
+        
+          <li>Private Rooms</li>
+          <li>General Wards</li>
+          <li>ICU</li>
+    
+      </div>
+      <div class="service">
+        <h2>Diagnostic Services</h2>
+        
+          <li>Laboratory Tests</li>
+          <li>Radiology like X-Ray, CT Scan, MRI</li>
+          <li>Ultrasound</li>
+          <li>Endoscopy</li>
+        
+      </div>
+      <div class="service">
+        <h2>Emergency Services</h2>
+        
+          <li>24/7 Emergency Care</li>
+          <li>Ambulance Service   Call:108</li>
+        
+      </div>
+    </div>
+  </div>
+</body>
+</html>
