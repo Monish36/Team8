@@ -1,0 +1,25 @@
+{
+	"folders": [
+		{
+			"path": ".."
+		},
+		{
+			"path": "../../opencv"
+		},
+		{
+			"path": "../../project_python"
+		},
+		{
+			"path": "../../MY DATA"
+		},
+		{
+			"path": "../../project"
+		},
+		{
+			"path": "../../facial_attendence_system"
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "project"
+	}
+}
